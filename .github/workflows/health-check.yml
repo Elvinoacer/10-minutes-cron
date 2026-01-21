@@ -2,14 +2,17 @@ name: Health Check Cron
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/14 * * * *'
   workflow_dispatch:
 
 jobs:
   health-check:
     runs-on: ubuntu-latest
     steps:
-      - name: Hit Health Endpoint
+      - name: Hit Health Endpoints
         run: |
-          echo "Sending request to health endpoint..."
-          curl -v https://unisocial-user-service.onrender.com/health
+          echo "Sending requests to health endpoints..."
+          curl -v https://unisocial-user-service.onrender.com/health &
+          curl -v https://unisocial-gateway.onrender.com/health &
+          wait
+          echo "Health checks completed."

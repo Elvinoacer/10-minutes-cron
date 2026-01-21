@@ -4,9 +4,11 @@ This repository is configured to run a scheduled cron job via **GitHub Actions**
 
 ## Functionality
 
-- **Target URL**: `https://unisocial-user-service.onrender.com/health`
-- **Schedule**: Every 10 minutes (`*/10 * * * *`)
-- **Method**: GET (via `curl`)
+- **Target URLs**:
+  - `https://unisocial-user-service.onrender.com/health`
+  - `https://unisocial-gateway.onrender.com/health`
+- **Schedule**: Every 14 minutes (`*/14 * * * *`)
+- **Method**: GET (via `curl` in parallel)
 
 ## Infrastructure
 
