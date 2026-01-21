@@ -1,48 +1,32 @@
 # Cron Hit Service
 
-This Next.js application is configured to run a scheduled cron job to perform health checks on the Unisocial User Service.
+This repository is configured to run a scheduled cron job via **GitHub Actions** to perform health checks on the Unisocial User Service.
 
 ## Functionality
 
 - **Target URL**: `https://unisocial-user-service.onrender.com/health`
 - **Schedule**: Every 10 minutes (`*/10 * * * *`)
-- **Method**: GET
+- **Method**: GET (via `curl`)
 
 ## Infrastructure
 
-The project uses [Vercel Cron Jobs](https://vercel.com/docs/base-cron) for scheduling.
+The project uses [GitHub Actions](https://docs.github.com/en/actions) for scheduling.
 
 ### Configuration
 
-- **`vercel.json`**: Defines the cron schedule.
-  ```json
-  {
-    "crons": [
-      {
-        "path": "/api/cron/health-check",
-        "schedule": "*/10 * * * *"
-      }
-    ]
-  }
-  ```
-
-- **API Route**: `app/api/cron/health-check/route.ts`
-  - Fetches the health endpoint.
-  - Validates the JSON response (`{ "status": "healthy" }`).
-  - Logs success or failure.
+- **Workflow File**: `.github/workflows/health-check.yml`
+  - Runs on `ubuntu-latest`.
+  - Executes `curl -v` to hit the health endpoint.
 
 ## Local Development
 
-To run the health check locally:
+Since the cron job is handled by GitHub Actions and simply runs a `curl` command, there is no local server requirement for the cron itself.
 
-1. Start the server:
-   ```bash
-   npm run dev
-   ```
-
-2. Visit the endpoint:
-   `http://localhost:3000/api/cron/health-check`
+To manually test the health check:
+```bash
+curl -v https://unisocial-user-service.onrender.com/health
+```
 
 ## Deployment
 
-Deploy to Vercel to activate the cron job. Vercel will automatically detect the `vercel.json` configuration.
+Pushing the `.github/workflows/health-check.yml` file to the default branch on GitHub will automatically enable the scheduled workflow.
